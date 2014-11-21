@@ -33,6 +33,7 @@ import org.json.JSONException;
 
 import android.util.Log;
 import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 
 public class Cookies extends CordovaPlugin {
 	
@@ -44,6 +45,10 @@ public class Cookies extends CordovaPlugin {
             this.clear();
             callbackContext.success();
             return true;
+        } else if("flush".equals(action)) {
+        	this.flush();
+            callbackContext.success();
+            return true;
         }
         return false;  // Returning false results in a "MethodNotFound" error.
     }
@@ -53,5 +58,8 @@ public class Cookies extends CordovaPlugin {
         CookieManager.getInstance().removeAllCookie();
     }
 	
-
+	public void flush() {
+		Log.v(TAG, "Flushing cookies...");
+        CookieSyncManager.getInstance().sync();
+	}
 }
